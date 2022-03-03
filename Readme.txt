@@ -1,3 +1,5 @@
+## Init the project
+
 1. Create 'dist' and 'src' folders
 
 2. Run 'npm init'
@@ -232,3 +234,52 @@ export default config;
     "build": "webpack --config webpack.prod.config.ts",
   },
 ...
+
+## Add CSS
+
+1. Add 'index.css' file to src folder with next content
+.app-heading {
+    color: red;
+}
+
+2. add 'import "./app.css"' to index.tsx
+
+3. npm install --save-dev css-loader style-loader
+
+4. add a rule to webpack.dev.config
+module: {
+    rules: [
+      ...,
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ],
+  },
+
+5. npm install --save-dev mini-css-extract-plugin @types/mini-css-extract-plugin
+
+6. Add next lines to webpack.prod.config.ts
+...
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
+
+const config: Configuration = {
+  ...,
+  module: {
+    rules: [
+      ...,
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
+      },
+    ],
+  },
+  ...,
+  plugins: [
+    ...,
+    new MiniCssExtractPlugin({
+      filename: "[name].[contenthash].css",
+    }),
+  ],
+  ...
+};
