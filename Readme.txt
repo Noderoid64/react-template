@@ -283,3 +283,43 @@ const config: Configuration = {
   ],
   ...
 };
+
+## Add images supporting.
+
+1. Add rule to webpack.dev.config.ts and webpack.prod.config.ts
+const config: Configuration = {
+  ...
+  module: {
+    rules: [
+      ...,
+      {
+        test: /\.(png|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+    ],
+  },
+  ...
+};
+
+2. use image like:
+import car from "./car.jpg";
+...
+const Content = () => (
+  <div>
+    <img src={car} className={content.car} />
+  </div>
+);
+
+3. add custom.d.ts with nex lines:
+declare module "*.jpg";
+declare module "*.png";
+declare module "*.jpeg";
+declare module "*.gif";
+
+4. make sure that the 'custom.d.ts' is included in tsconfig
+{
+  "compilerOptions": {
+    ...
+  },
+  "include": ["src", "webpack.dev.config.ts", "webpack.prod.config.ts", "custom.d.ts"]
+}
